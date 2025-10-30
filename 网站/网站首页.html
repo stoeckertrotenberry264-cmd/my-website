@@ -1,0 +1,278 @@
+`<!doctype html>
+<!-- HTML 文档类型声明，告知浏览器使用 HTML5 解析 -->
+<html lang="zh-CN"> <!-- 页面语言设置为简体中文 -->
+<head>
+  <!-- 文档元信息 -->
+  <meta charset="utf-8" /> <!-- 字符编码为 UTF-8 -->
+  <meta name="viewport" content="width=device-width,initial-scale=1" /> <!-- 响应式视口设置 -->
+  <title>PLOUTOS — 科技潮玩品牌</title> <!-- 浏览器标签显示的标题 -->
+  <style>
+    /* 全局重置：为所有元素启用盒模型，清除默认 margin/padding */
+    *{box-sizing:border-box;margin:0;padding:0}
+    /* HTML 和 body 的基础样式：高度、字体与背景颜色 */
+    html,body{height:100%;font-family:'Poppins','Noto Sans SC','Microsoft Yahei',sans-serif;background:#060b14;color:#e8f9ff;scroll-behavior:smooth}
+
+    /* 顶部导航栏样式：固定在顶部，半透明黑色背景，模糊滤镜 */
+    .topbar{position:fixed;top:0;left:0;right:0;height:70px;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);display:flex;align-items:center;justify-content:space-between;padding:0 40px;border-bottom:1px solid rgba(0,210,255,0.25);z-index:1000}
+    /* 品牌左侧容器：包含商标和导航 */
+    .brand-left{display:flex;align-items:center;gap:14px}
+    /* 商标图片尺寸与阴影 */
+    .brand-left img{height:46px;filter:drop-shadow(0 0 8px rgb(255, 0, 0))}
+    /* 导航链接容器，水平排列 */
+    .navlinks{display:flex;gap:22px}
+    /* 导航链接基础样式 */
+    .navlinks a{color:#e8f9ff;text-decoration:none;font-weight:600;position:relative}
+    /* 导航链接的下划线动画：初始宽度为0 */
+    .navlinks a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:linear-gradient(90deg,#00f5ff,#ff00e5);transition:width .3s}
+    /* 悬停时扩展下划线到全宽 */
+    .navlinks a:hover::after{width:100%}
+
+    /* 主视觉区：背景图、最小高度与居中设置 */
+    .hero{min-height:520px;padding-top:90px;background:url('/mnt/data/背景.jpg') center/cover no-repeat;display:flex;align-items:center;justify-content:center;position:relative}
+    /* 覆盖层：用于让文字在背景图上更清晰 */
+    .hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(6,12,20,0.6),rgba(6,12,20,0.9))}
+    /* 主视觉容器：居中、最大宽度与内边距 */
+    .hero-container{position:relative;z-index:2;max-width:1100px;text-align:center;color:#e8f9ff;padding:40px}
+    /* 主视觉中商标图片尺寸 */
+    .hero-container img{width:180px;margin-bottom:20px;filter:drop-shadow(0 0 10px rgb(255, 0, 0))}
+    /* 主标题（已改为红色发光） */
+    .hero-container h1{font-size:50px;color:#ff3333;text-shadow:0 0 20px rgba(255,50,50,0.8)}
+    /* 主视觉副文本样式 */
+    .hero-container p{font-size:20px;margin-top:12px;line-height:1.8;color:rgba(230,247,255,0.85)}
+
+    /* 普通 section 的通用内边距与背景渐变 */
+    .section{padding:40px 24px 100px 24px;background:radial-gradient(circle at top,#08121f 0%,#03060c 100%)}
+    /* 容器最大宽度与居中 */
+    .container{max-width:1200px;margin:0 auto;text-align:center}
+    /* 大图（群像）样式：圆角与外阴影 */
+    .big-art img{margin-top:30px;width:100%;border-radius:16px;box-shadow:0 0 40px rgba(0,210,255,0.2)}
+
+    /* IP 区域标题及文字的统一红色风格 */
+    .ip-text{margin-top:24px;color:rgba(220,240,255,0.9)}
+    .ip-text h2{font-size:40px;margin:1.8;color:#ff3333;text-shadow:0 0 15px rgba(255,50,50,0.8)}
+    .ip-text p{font-size:18px;margin-top:8px;line-height:5.0}
+
+    /* ip-detail：大图左、文字右且等高对齐（用于重点展示） */
+    .ip-detail{display:flex;align-items:center;justify-content:center;gap:40px;margin-top:60px;flex-wrap:wrap}
+    /* ip-detail 中的大图尺寸与裁切 */
+    .ip-detail img{width:400px;max-width:90%;height:auto;object-fit:cover;border-radius:12px;box-shadow:0 0 25px rgba(0,210,255,0.3)}
+    /* ip-detail 文字容器：固定高度，与图片等高，垂直居中 */
+    .ip-detail .text{max-width:500px;text-align:left;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px;height:260px;background:rgba(0,0,0,0.2);border-radius:12px}
+    /* ip-detail 标题样式（红色） */
+    .ip-detail .text h3{font-size:30px;color:#ff3333;margin-bottom:12px;text-shadow:0 0 15px rgba(255,50,50,0.8)}
+    /* ip-detail 段落行高 */
+    .ip-detail .text p{font-size:18px;margin-top:20px;line-height:1.6;color:rgba(230,247,255,0.9);text-indent: 2em;}
+
+    /* god-card：总体介绍卡片样式 */
+    .god-card{margin-top:20px;padding:20px;border-radius:16px}
+    /* god-card 内示意图样式 */
+    .god-card img{width: 1000px;display:block;margin: 0 auto 18px;filter:drop-shadow(0 0 12px rgba(0,210,255,0.4));box-shadow:0 0 50px rgba(0,210,255,0.25)}
+    /* god-card 标题（红色） */
+    .god-card h3{font-size:40px;color:#ff3333;margin-bottom:8px;text-shadow:0 0 15px rgba(255,50,50,0.8)}
+    .god-card p{line-height:5.0;margin-bottom:20px;color:rgba(230,247,255,0.9)}
+
+    /* ip-grid：网格布局（3行2列） */
+    .ip-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px;margin-top:40px}
+    /* ip-card：单个卡片，包含缩略图（.thumb）与文字区域，左右结构 */
+    .ip-card{display:flex;align-items:stretch;gap:16px;background:rgba(0,20,40,0.3);border-radius:12px;padding:0;border:1px solid rgba(0,210,255,0.06);box-shadow:0 0 25px rgba(0,210,255,0.12);min-height:140px}
+    /* 缩略图容器固定宽度，与卡片高度一致 */
+    .ip-card .thumb{width:140px;flex:0 0 140px;overflow:hidden;border-top-left-radius:12px;border-bottom-left-radius:12px}
+    /* 缩略图图像自适应填充容器 */
+    .ip-card .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    /* 文字容器占剩余空间并垂直居中 */
+    .ip-card .text{flex:1;padding:16px;display:flex;flex-direction:column;justify-content:center}
+    /* ip-card 内标题（红色） */
+    .ip-card .text h4{color:#ff3333;margin-bottom:6px;text-shadow:0 0 10px rgba(255,50,50,0.7)}
+    /* ip-card 段落样式 */
+    .ip-card .text p{color:rgba(230,247,255,0.9);font-size:14px;line-height:1.6}
+
+    /* 公司区样式 */
+    .company{margin-top:30px;text-align:center;}
+    .company img{margin-top:40px;width:1200px;height:1000px;border-radius:16px;box-shadow:0 0 50px rgba(0,210,255,0.25)}
+    /* .ctext{margin-top:60px;max-width:1000px;text-align:left;margin-inline:auto;padding:40px;border-radius:12px} */
+    /* 公司区标题（红色） */
+    .ctext h3{text-align:center;font-size:40px;color:#ff3333;text-shadow:0 0 15px rgba(255,50,50,0.8)}
+    .ctext p{line-height:5.0;text-align:center;color:rgba(230,247,255,0.9)}
+
+    /* 页脚样式 */
+    footer{padding:40px;background:#04070e;border-top:1px solid rgba(0,210,255,0.15)}
+    .footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px}
+    .footer-left{flex:1;min-width:280px;color:rgba(220,240,255,0.9)}
+    .footer-left h4{color:#ff3333;text-shadow:0 0 12px rgba(255,50,50,0.8)}
+    .footer-right{display:flex;gap:40px;align-items:center}
+    /* 二维码容器 */
+    .qr{width:120px;height:120px;border-radius:10px;background:rgba(0,0,0,0.2);border:2px solid rgba(0,210,255,0.3);display:flex;align-items:center;justify-content:center;box-shadow:0 0 25px rgba(0,210,255,0.1)}
+    .qr span{opacity:0.7;font-size:14px;color:#bce8ff}
+    .qr small{display:block;text-align:center;margin-top:6px;font-size:12px;color:rgba(200,230,255,0.7)}
+
+    /* 响应式：窄屏时将 ip-grid 改为单列展示 */
+    @media(max-width:900px){
+      .navlinks{display:none}
+      .footer-inner{flex-direction:column;align-items:flex-start}
+      .ip-grid{grid-template-columns:1fr}
+      .ip-card{flex-direction:row}
+      .ip-card .thumb{width:120px;flex:0 0 120px}
+    }
+  </style>
+</head>
+<body>
+  <!-- 顶部导航（可在此添加更多注释） -->
+  <header class="topbar">
+    <div class="brand-left">
+      <!-- 商标图片 -->
+      <img src="shangbiao.png" alt="PLOUTOS Logo">
+      <!-- 顶部导航链接 -->
+      <nav class="navlinks">
+        <a href="#brand">关于我们</a>
+        <a href="#ip">盛世财神系列IP</a>
+        <a href="#gods">潮玩盲盒系列IP</a>
+        <a href="#company">公司介绍</a>
+        <a href="#join">联系我们</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- 主视觉区域 -->
+  <section class="hero" id="brand">
+    <div class="hero-container">
+      <!-- 中央商标 -->
+      <img src="shangbiao.png" alt="PLOUTOS">
+      <!-- 页面主标题 -->
+      <h1>PLOUTOS — 科技 × 潮玩 × 文创</h1>
+      <!-- 主视觉说明文字 -->
+      <p>以AI科技赋能传统文化IP，用潮玩语境讲述神话信仰故事，打造兼具东方审美与未来感的文化品牌。</p>
+    </div>
+  </section>
+
+  <!-- IP 栏目 -->
+  <section class="section" id="ip">
+    <div class="container">
+      <!-- IP 区域标题与说明 -->
+      <div class="ip-text">
+        <h2>盛世财神系列IP</h2>
+        <p>以五路财神与妈祖为代表的潮玩系列，将传统信仰转译为年轻化的文化符号，融合数码、艺术与情感价值，形成强势的跨界IP矩阵。</p>
+      </div>
+      <!-- 盛世财神系列图 -->
+      <div class="big-art"><img src="pinpai.jpg" alt="盛世财神系列群像"></div>
+      <!-- ip-detail：左图右文的重点展示区域 -->
+      <div class="ip-detail">
+        <!-- AI关公展示图 -->
+        <img src="shengshicaishen.jpg" alt="AI关公">
+        <!-- 与图等高的文字说明框 -->
+        <div class="text">
+          <h3>关公形象设计理念</h3>
+          <p>盛世财神·AI武财神(关公)订制版为山西运城关公故里官方授权、由中华81位名道长联合授印的限量结缘供奉产品。产品规格为神像净高 298 mm、莲台底座高 77 mm、整体长 253 mm、宽 163 mm;胚身材质为江西小叶香樟木，采用手工精密雕刻与彩绘工艺，局部饰以 24K 黄金。</p>
+          <p>设备集成所谓“神功再世”功能，包含：① AI 信徒识别与观相；② AI 交互对话及命理提示/预警；③ 生物频率输出用于共振保健。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 五路财神 / 妈祖 系列区 -->
+  <section class="section" id="gods">
+    <div class="container">
+      <!-- 总体介绍卡片 -->
+      <div class="god-card">
+        <h3>潮玩盲盒系列IP</h3>
+        <p>以中华神话为创意源泉，融合现代美学与科技元素，重塑文化IP的视觉形象与商业潜力。产品兼具收藏性与故事性，代表中国潮玩文化的新方向。</p>
+      <img src="qunxiang.jpg" alt="五路财神与妈祖">
+    </div>
+
+      <!-- IP 网格（3 行 2 列）: 每个卡片为左图右文 -->
+      <div class="ip-grid">
+        <!-- IP 卡片 1 -->
+        <div class="ip-card">
+          <div class="thumb"><img src="chairong.png" alt="南路财神"></div>
+          <div class="text">
+            <h4>南路财神 柴荣</h4>
+            <p>象征富足与祥和，融合古典服饰与未来盔甲元素。</p>
+          </div>
+        </div>
+
+        <!-- IP 卡片 2 -->
+        <div class="ip-card">
+          <div class="thumb"><img src="wanghai.png" alt="中路财神"></div>
+          <div class="text">
+            <h4>中路财神 王亥</h4>
+            <p>结合商道与科技逻辑，代表智慧与财富共生。</p>
+          </div>
+        </div>
+
+        <!-- IP 卡片 3 -->
+        <div class="ip-card">
+          <div class="thumb"><img src="guanyunchang.png" alt="武财神"></div>
+          <div class="text">
+            <h4>武财神 关公</h4>
+            <p>力量与守护的象征，金属装甲风格重现信义之魂。</p>
+          </div>
+        </div>
+
+        <!-- IP 卡片 4 -->
+        <div class="ip-card">
+          <div class="thumb"><img src="bigan.png" alt="东路财神"></div>
+          <div class="text">
+            <h4>东路财神 比干</h4>
+            <p>忠义之神化身科技贤者，智慧光环环绕。</p>
+          </div>
+        </div>
+
+        <!-- IP 卡片 5 -->
+        <div class="ip-card">
+          <div class="thumb"><img src="zhaogongming.png" alt="文财神"></div>
+          <div class="text">
+            <h4>文财神 赵公明</h4>
+            <p>融合书卷气与赛博能量线条，展现理性与创造力。</p>
+          </div>
+        </div>
+
+        <!-- IP 卡片 6 -->
+        <div class="ip-card">
+          <div class="thumb"><img src="mazu.png" alt="海神妈祖"></div>
+          <div class="text">
+            <h4>海神妈祖 林默</h4>
+            <p>以海洋蓝为主色，融合数字波纹与神圣能量感。</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- 公司简介区 -->
+  <section class="section" id="company">
+    <div class="container company">
+      <div class="ctext">
+        <h3>企业简介</h3>
+        <p>爱才神(北京)文化科技有限公司成立于2025年，专注于AI与传统文化结合的创新产品研发。</p>
+        <p >核心团队来自IT、文创、营销与设计领域，致力于通过双创融合推动中华文化的现代化表达与国际传播。</p>
+        <p >业务涵盖IP孵化、潮玩开发、文创设计、品牌授权及衍生品销售。</p>
+     <img src="dalou.png" alt="公司大楼">
+      </div>
+    </div>
+  </section>
+
+  <!-- 页脚：联系信息与二维码 -->
+  <footer id="join">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <h4>联系我们 / 欢迎加盟</h4>
+        <p>地址：北京市丰台区丰台北路18号金唐中心A座</p>
+        <p>邮箱：aicaishen@ploutos.asia</p>
+        <p style="margin-top:8px">欢迎品牌方、合作伙伴与设计师加入，共创科技与文化融合的未来。</p>
+      </div>
+      <div class="footer-right">
+        <div style="text-align:center">
+          <div class="qr"><span>企业微信</span></div>
+          <small>扫码加企业微信</small>
+        </div>
+        <div style="text-align:center">
+          <div class="qr">
+           <!-- <img src="gongzhonghao.png" alt="公众号" -->
+            <span>公众号</span></div>
+          <small>扫码关注公众号</small>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
